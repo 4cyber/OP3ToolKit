@@ -24,7 +24,7 @@ echo Telegram: @ACyber
 echo.
 echo.
 pause
-cls
+echo.
 echo AVVIO ADB
 echo.
 adb start-server
@@ -314,11 +314,11 @@ goto :ROM
 
 :GAPPS
 cls
-echo Verra' scaricato il pacchetto aroma (dal peso di 892 mb), se preferisci un pacchetto diverso scaricalo da "opengapps.org", rinominalo OGAPPS.zip e mettilo nella stessa directory del toolkit.
+echo Verra' scaricato il pacchetto stock (670mb circa), se preferisci un pacchetto diverso scaricalo da "opengapps.org", rinominalo OGAPPS.zip e mettilo nella stessa directory del toolkit.
 echo.
 echo Se accetti il pacchetto Aroma premi un tasto per il download automatico.
 pause >nul
-powershell Invoke-Webrequest https://www.dropbox.com/s/q8ho45j3wus0kb6/open_gapps-arm64-7.1-aroma-20161111.zip?dl=1 -outfile OGAPPS.zip
+powershell Invoke-Webrequest http://bit.ly/2erRee9 -outfile OGAPPS.zip
 echo.
 echo Fatto, attendi..
 ping 127.0.0.1 -n 3 >nul
@@ -339,6 +339,7 @@ goto :AICPMENU
 :FAICP
 cls
 if Not Exist AICP.zip goto :AICPD
+if Not Exist OGAPPS.zip goto :GAPPS
 adb reboot recovery >nul
 echo effettua i wipe (almeno system,data,cache e dalvik) e poi manda il telefono in sideload (avanzate - sideload)
 echo premi un tasto quando sei in sideload.
@@ -369,7 +370,7 @@ echo AICP.zip non trovato, lo scarico per te... ci vorra un po'!
 powershell.exe Invoke-Webrequest http://mirror2.aicp-rom.com/oneplus3/NIGHTLY/aicp_oneplus3_n-12.1-NIGHTLY-20161111.zip -outfile AICP.zip
 echo fatto! comincio il processo di flash.
 ping 127.0.0.1 -n 3 >nul
-goto :AICP
+goto :AICPMENU
 
 :CMMENU
 cls
@@ -386,6 +387,7 @@ goto :CMMENU
 :FCM
 cls
 if Not Exist CM.zip goto :CMD
+If Not Exist OGAPPS.zip goto :GAPPS
 adb reboot recovery >nul
 echo effettua i wipe (almeno system,data,cache e dalvik) e poi manda il telefono in sideload (avanzate - sideload)
 echo premi un tasto quando sei in sideload.
@@ -416,7 +418,7 @@ echo CM.zip non trovato, lo scarico per te... ci vorra un po'!
 powershell.exe Invoke-Webrequest http://download.cyanogenmod.org/get/jenkins/186540/cm-14.1-20161111-NIGHTLY-oneplus3.zip -outfile CM.zip
 echo fatto! comincio il processo di flash.
 ping 127.0.0.1 -n 3 >nul
-goto :CM
+goto :CMMENU
 
 :DECRIPT
 echo.
