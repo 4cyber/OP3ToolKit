@@ -1,5 +1,6 @@
 
 @echo off
+mode con:cols=80 lines=25
 cls
 color f0
 Title OnePlus 3 TK
@@ -24,10 +25,14 @@ echo Telegram: @ACyber
 echo.
 echo.
 pause
+cls
+if Not Exist C:\adb goto :IADB
+:PREMESSE
 echo.
 echo AVVIO ADB
 echo.
 adb start-server
+start cmd.exe /C devices.bat
 goto menu
 
 :menu
@@ -41,13 +46,14 @@ echo  #     # #       #   # # #     #
 echo  #     # #       #    ## #     # 
 echo  #     # ####### #     #  #####  
 echo.
-adb devices
 echo.
 echo 1-Azioni Bootloader
 echo 2-Flasha twrp / stock recovery
 echo 3-Installa Supersu
 echo 4-OxygenOS / Rom flash
 echo 5-Decript (no wipe) [Coming soon]
+echo 6-App Installer
+echo 7-Aiuto
 echo 0-Esci
 echo.
 set /p scelta= Scelta:
@@ -56,6 +62,8 @@ if '%scelta%'=='2' goto :TWRP
 if '%scelta%'=='3' goto :SUPERSU
 if '%scelta%'=='4' goto :OOS
 if '%scelta%'=='5' goto :DECRIPT
+if '%scelta%'=='6' goto :APP
+if '%scelta%'=='7' goto :HELP
 if '%scelta%'=='0' goto :EXIT
 goto menu
 
@@ -159,14 +167,13 @@ pause >nul
 adb reboot bootloader >nul
 fastboot flash recovery twrp.img
 ping 127.0.0.1 -n 8 >nul
-fastboot reboot recovery
 goto menu
 
 :moment
 cls
 echo Twrp non trovata, procedo al download!
 echo.
-powershell Invoke-Webrequest https://www.dropbox.com/s/y4s161eq1df4sti/twrp-3.0.2-1-oneplus3.img?dl=1 -outfile twrp.img
+powershell Invoke-Webrequest https://www.dropbox.com/s/yzo4eep6v9tv610/twrp-3.0.2-22-oneplus3.img?dl=1 -outfile twrp.img
 goto :ftwrp
 
 :fsr
@@ -201,9 +208,10 @@ echo  #     # #    # #      #      #   #  #     # #    #
 echo   #####   ####  #      ###### #    #  #####   ####  
 echo.
 echo.                                                    
-echo hai gia installato la recovery? premi [s] per continuare o [n] per andare nel menu recovery
+echo hai gia installato la recovery? premi [s] per continuare, [n] per andare nel menu recovery o [m] per tornare nel menu
 set /p scelta= Scelta:
 if '%scelta%'=='n' goto :TWRP
+if '%scelta%'=='m' goto :menu
 if Not Exist supersu.zip powershell Invoke-Webrequest https://s3-us-west-2.amazonaws.com/supersu/download/zip/SuperSU-v2.78-201609011115.zip -outfile supersu.zip
 echo riavvio il telefono in recovery
 adb reboot recovery >nul
@@ -229,7 +237,7 @@ echo  ####### #######  #####
 echo.
 echo.
 echo 1-OxygenOS 3.2.7
-echo 2-OxygenOS CB 3.5.5
+echo 2-OxygenOS CB OpenBeta7
 echo 3-Rom [BETA]
 echo 0-Torna al menu principale
 echo.
@@ -255,12 +263,13 @@ adb sideload OOS.zip
 cls
 echo Il primo avvio richiede un po' piu' di tempo, resisti.
 ping 127.0.0.1 -n 8 >nul
+del OOS.zip >nul
 goto menu
 
 :MOOS
 echo OOS non rilevata, download in corso, ci vorra' un po'... resisti!
 echo.
-powershell Invoke-Webrequest http://bit.ly/2f1YABC -outfile OOS.zip
+powershell Invoke-Webrequest https://www.dropbox.com/s/vaneada2ollzogr/OnePlus3Oxygen_3.2.7.zip?dl=1 -outfile OOS.zip
 goto FOOS
 
 :FOOSCB
@@ -269,7 +278,7 @@ if Not Exist OOSCB.zip goto MOOSCB
 echo il telefono si trova in recovery [s/n]?
 set /p scelta= Scelta:
 if '%scelta%'=='n' adb reboot recovery >nul
-echo ricordati di fare i wipe prima di installare la oosCB /almeno system, data, cache e dalvik)
+echo ricordati di fare i wipe prima di installare la oosCB almeno system, data, cache e dalvik)
 ping 127.0.0.1 -n 8 >nul
 echo vai in avanzate e poi in modalita' sideload.
 echo.
@@ -279,12 +288,13 @@ adb sideload OOSCB.zip
 cls
 echo Il primo avvio richiede un po' piu' di tempo, resisti.
 ping 127.0.0.1 -n 8 >nul
+del OOSCB.zip >nul
 goto menu
 
 :MOOSCB
 echo OOS CB non rilevata, download in corso, ci vorra' un po'... resisti!
 echo.
-powershell Invoke-Webrequest http://oxygenos.oneplus.net.s3.amazonaws.com/OnePlus3Oxygen_16_OTA_007_all_1610310039_bc5bc09fd9af4ceb.zip -outfile OOSCB.zip
+powershell Invoke-Webrequest http://oxygenos.oneplus.net.s3.amazonaws.com/OnePlus3Oxygen_16_OTA_009_all_1611161152_86fe98f7ebf24259.zip -outfile OOSCB.zip
 goto FOOSCB
 
 :ROM
@@ -299,8 +309,8 @@ echo  #     # ####### #     #
 echo.
 if Not Exist OGAPPS.zip echo Pacchetto OGAPPS.zip non trovato!
 echo.
-echo 1-AICP (11-11-2016) (7.1)
-echo 2-CyanogenMOD (11-11-2016) (7.1)
+echo 1-AICP (20-11-2016) (7.1)
+echo 2-CyanogenMOD (19-11-2016) (7.1)
 echo 3-FreedomOS () [coming soon]
 echo 4-Apri il sito opengapps.org / scarica aroma
 echo 0-Torna a Menu OOS
@@ -312,17 +322,29 @@ if '%scelta%'=='4' start http://opengapps.org/
 if '%scelta%'=='0' goto :OOS
 goto :ROM
 
-:GAPPS
+:GAPPSAICP
 cls
 echo Verra' scaricato il pacchetto stock (670mb circa), se preferisci un pacchetto diverso scaricalo da "opengapps.org", rinominalo OGAPPS.zip e mettilo nella stessa directory del toolkit.
 echo.
-echo Se accetti il pacchetto Aroma premi un tasto per il download automatico.
+echo Se accetti il pacchetto Stock premi un tasto per il download automatico.
 pause >nul
-powershell Invoke-Webrequest http://bit.ly/2erRee9 -outfile OGAPPS.zip
+If Not Exist GAPPS.zip powershell Invoke-Webrequest http://bit.ly/2erRee9 -outfile OGAPPS.zip
 echo.
 echo Fatto, attendi..
 ping 127.0.0.1 -n 3 >nul
-goto :ROM
+goto :FAICP
+
+:GAPPSCM
+cls
+echo Verra' scaricato il pacchetto stock (670mb circa), se preferisci un pacchetto diverso scaricalo da "opengapps.org", rinominalo OGAPPS.zip e mettilo nella stessa directory del toolkit.
+echo.
+echo Se accetti il pacchetto Stock premi un tasto per il download automatico.
+pause >nul
+If Not Exist GAPPS.zip powershell Invoke-Webrequest http://bit.ly/2erRee9 -outfile OGAPPS.zip
+echo.
+echo Fatto, attendi..
+ping 127.0.0.1 -n 3 >nul
+goto :FCM
 
 :AICPMENU
 cls
@@ -339,7 +361,7 @@ goto :AICPMENU
 :FAICP
 cls
 if Not Exist AICP.zip goto :AICPD
-if Not Exist OGAPPS.zip goto :GAPPS
+if Not Exist OGAPPS.zip goto :GAPPSAICP
 adb reboot recovery >nul
 echo effettua i wipe (almeno system,data,cache e dalvik) e poi manda il telefono in sideload (avanzate - sideload)
 echo premi un tasto quando sei in sideload.
@@ -351,6 +373,7 @@ pause >nul
 adb sideload OGAPPS.zip
 echo fatto! ora riavvia, ci vorra' un po per il primo riavvio.
 ping 127.0.0.1 -n 5 >nul
+del AICP.zip >nul
 goto menu
 
 :DAICP
@@ -363,11 +386,12 @@ pause >nul
 adb sideload AICP.zip
 echo fatto! ora riavvia, ci vorra' un po per il primo riavvio.
 ping 127.0.0.1 -n 5 >nul
+del AICP.zip >nul
 goto menu
 
 :AICPD
 echo AICP.zip non trovato, lo scarico per te... ci vorra un po'!
-powershell.exe Invoke-Webrequest http://mirror2.aicp-rom.com/oneplus3/NIGHTLY/aicp_oneplus3_n-12.1-NIGHTLY-20161111.zip -outfile AICP.zip
+powershell.exe Invoke-Webrequest http://mirror2.aicp-rom.com/oneplus3/NIGHTLY/aicp_oneplus3_n-12.1-NIGHTLY-20161120.zip -outfile AICP.zip
 echo fatto! comincio il processo di flash.
 ping 127.0.0.1 -n 3 >nul
 goto :AICPMENU
@@ -387,7 +411,7 @@ goto :CMMENU
 :FCM
 cls
 if Not Exist CM.zip goto :CMD
-If Not Exist OGAPPS.zip goto :GAPPS
+If Not Exist OGAPPS.zip goto :GAPPSCM
 adb reboot recovery >nul
 echo effettua i wipe (almeno system,data,cache e dalvik) e poi manda il telefono in sideload (avanzate - sideload)
 echo premi un tasto quando sei in sideload.
@@ -399,6 +423,7 @@ pause >nul
 adb sideload OGAPPS.zip
 echo fatto! ora riavvia, ci vorra' un po per il primo riavvio.
 ping 127.0.0.1 -n 5 >nul
+del CM.zip >nul
 goto menu
 
 :DCM
@@ -411,11 +436,12 @@ pause >nul
 adb sideload CM.zip
 echo fatto! ora riavvia, ci vorra' un po per il primo riavvio.
 ping 127.0.0.1 -n 5 >nul
+del CM.zip >nul
 goto menu
 
 :CMD
 echo CM.zip non trovato, lo scarico per te... ci vorra un po'!
-powershell.exe Invoke-Webrequest http://download.cyanogenmod.org/get/jenkins/186540/cm-14.1-20161111-NIGHTLY-oneplus3.zip -outfile CM.zip
+powershell.exe Invoke-Webrequest https://mirror.cyanogenmod.org/jenkins/187176/cm-14.1-20161119-NIGHTLY-oneplus3.zip -outfile CM.zip
 echo fatto! comincio il processo di flash.
 ping 127.0.0.1 -n 3 >nul
 goto :CMMENU
@@ -425,6 +451,92 @@ echo.
 echo LA FUNZIONE ARRIVERA' PRESTO!
 ping 127.0.0.1 -n 8 >nul
 goto menu
+
+:APP
+cls
+echo     #                  
+echo    # #   #####  #####  
+echo   #   #  #    # #    # 
+echo  #     # #    # #    # 
+echo  ####### #####  #####  
+echo  #     # #      #      
+echo  #     # #      #      
+echo.
+echo (utilizzo di adb install)
+echo.
+echo 1-Lucky patcher (v6.3.7)
+echo 2-AdAway
+echo 3-Spotify (tablet mod v6.9.0.1212)
+echo 4-Xposed Installer (v3.1.1 Lollipop-Marshmallow)
+echo 0-Torna al menu
+echo.
+set /p scelta= Scelta:
+if '%scelta%'=='1' goto :lp
+if '%scelta%'=='2' goto :ad
+if '%scelta%'=='3' goto :spotify
+if '%scelta%'=='4' goto :xposed
+if '%scelta%'=='0' goto :menu
+goto :APP
+
+:lp
+echo.
+echo Attendi.
+if Not Exist lucky.apk powershell Invoke-Webrequest https://www.dropbox.com/s/pc7931zdhuvreuu/Lucky%20Patcher%20v6.3.7.apk?dl=1 -outfile lucky.apk
+adb install lucky.apk
+echo.
+del lucky.apk >nul
+ping 127.0.0.1 -n 3 >nul
+goto :APP
+
+:ad
+echo.
+echo Attendi.
+if Not Exist adaway.apk powershell Invoke-Webrequest https://www.dropbox.com/s/d8xwds6qftq846r/AdAway-release_Build-Nov.19.2016.apk?dl=1 -outfile adaway.apk
+adb install adaway.apk
+echo.
+del adaway.apk >nul
+ping 127.0.0.1 -n 3 >nul
+goto :APP
+
+:spotify
+echo.
+echo Attendi.
+if Not Exist spotify.apk powershell Invoke-Webrequest https://www.dropbox.com/s/77sjpykjcbaqslt/Spotify%20Music%20v6.9.0.1212%20Final%20Mod%20iHackedit.com.apk?dl=1 -outfile spotify.apk
+adb install spotify.apk
+echo.
+del spotify.apk >nul
+ping 127.0.0.1 -n 3 >nul
+goto :APP
+
+:xposed
+echo.
+echo Attendi.
+if Not Exist xposed.apk powershell Invoke-Webrequest https://www.dropbox.com/s/qcd36121qi4mlds/XposedInstaller_3.1.1.apk?dl=1 -outfile xposed.apk
+adb install xposed.apk
+echo.
+del xposed.apk >nul
+ping 127.0.0.1 -n 3 >nul
+goto :APP
+
+:HELP
+cls
+echo Coming soon
+ping 127.0.0.1 -n 3 >nul
+goto menu
+
+
+:IADB
+echo adb non sembra essere presente, vuoi installarlo [s/n]?:
+set /p scelta= Scelta:
+if '%scelta%'=='s' goto :INSTADB
+goto :PREMESSE
+
+:INSTADB
+if Not Exist adb-setup-1.4.3 powershell.exe Invoke-Webrequest https://www.dropbox.com/s/duofwss02brdbpv/adb-setup-1.4.3.exe?dl=1 -outfile adb-setup-1.4.3.exe
+start adb-setup-1.4.3.exe
+start OnePlus_USB_Drivers_Setup.exe
+pause
+goto :PREMESSE
 
 :EXIT
 echo.
