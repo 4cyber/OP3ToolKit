@@ -27,14 +27,19 @@ echo.
 echo.
 pause
 cls
-Echo Avvio in corso...
+echo    #            #######               ######                      
+echo   ##     #      #     # #    # ###### #     # #      #    #  ####  
+echo  # #     #      #     # ##   # #      #     # #      #    # #      
+echo    #   #####    #     # # #  # #####  ######  #      #    #  ####  
+echo    #     #      #     # #  # # #      #       #      #    #      # 
+echo    #     #      #     # #   ## #      #       #      #    # #    # 
+echo  #####          ####### #    # ###### #       ######  ####   ####  
+echo.
+echo Avvio in corso...
 adb kill-server >nul
 adb start-server >nul
-if errorlevel 1 (
-echo adb non sembra essere presente, vuoi installarlo [s/n]?:
-set /p scelta= Scelta:
-if '%scelta%'=='s' goto :INSTADB
-)
+if errorlevel 1 goto :sce
+set "errorlevel=0"
 start cmd.exe /C devices.bat
 goto menu
 
@@ -178,6 +183,7 @@ echo Twrp non trovata, procedo al download!
 echo.
 powershell Invoke-Webrequest https://www.dropbox.com/s/yzo4eep6v9tv610/twrp-3.0.2-22-oneplus3.img?dl=1 -outfile twrp.img
 if errorlevel 1 (
+set "errorlevel=0"
 echo Il Download sembra essere fallito, riprova, se il problema persiste segnalamelo e provvedero' a sistemare il link se possibile.
 ping 127.0.0.1 -n 5 >nul
 goto :TWRP
@@ -203,6 +209,7 @@ cls
 echo Recovery stock non trovata... Attendi!
 powershell.exe Invoke-Webrequest https://s3.amazonaws.com/oxygenos.oneplus.net/recovery.img -outfile recovery.img
 if errorlevel 1 (
+set "errorlevel=0"
 echo Il Download sembra essere fallito, riprova, se il problema persiste segnalamelo e provvedero' a sistemare il link se possibile.
 ping 127.0.0.1 -n 5 >nul
 goto :TWRP
@@ -230,6 +237,7 @@ if '%scelta%'=='n' goto :TWRP
 if '%scelta%'=='m' goto :menu
 if Not Exist supersu.zip powershell Invoke-Webrequest https://download.chainfire.eu/1014/SuperSU/SR5-SuperSU-v2.78-SR5-20161130091551.zip?retrieve_file=1 -outfile supersu.zip
 if errorlevel 1 (
+set "errorlevel=0"
 echo Il Download sembra essere fallito, riprova, se il problema persiste segnalamelo e provvedero' a sistemare il link se possibile.
 ping 127.0.0.1 -n 5 >nul
 goto :menu
@@ -292,6 +300,7 @@ echo OOS non rilevata, download in corso, ci vorra' un po'... resisti!
 echo.
 powershell Invoke-Webrequest https://www.dropbox.com/s/anhgdpvfcizypna/OnePlus3-OxygenOS-3.2.8-full.zip?dl=1 -outfile OOS.zip
 if errorlevel 1 (
+set "errorlevel=0"
 echo Il Download sembra essere fallito, riprova, se il problema persiste segnalamelo e provvedero' a sistemare il link se possibile.
 ping 127.0.0.1 -n 5 >nul
 goto :OOS
@@ -315,6 +324,7 @@ echo 4-Open Beta 5
 echo 5-Open Beta 6
 echo 6-Open Beta 7
 echo 7-Open Beta 8
+echo 8-Open Beta 9
 echo 0-Torna al menu precedente
 echo.
 set /p scelta= Scelta[7-0]:
@@ -325,6 +335,7 @@ if '%scelta%'=='4' goto FOOSCB5
 if '%scelta%'=='5' goto FOOSCB6
 if '%scelta%'=='6' goto FOOSCB7
 if '%scelta%'=='7' goto FOOSCB8
+if '%scelta%'=='8' goto FOOSCB9
 if '%scelta%'=='0' goto OOS
 goto :SCEOOSCB
 
@@ -352,6 +363,7 @@ echo OOS CB 2 non rilevata, download in corso, ci vorra' un po'... resisti!
 echo.
 powershell Invoke-Webrequest http://oxygenos.oneplus.net.s3.amazonaws.com/OnePlus3Oxygen_16_OTA_002_all_1608301010_6ee96e2225c34a71.zip -outfile OOSCB2.zip
 if errorlevel 1 (
+set "errorlevel=0"
 echo Il Download sembra essere fallito, riprova, se il problema persiste segnalamelo e provvedero' a sistemare il link se possibile.
 ping 127.0.0.1 -n 5 >nul
 goto :SCEOOSCB
@@ -382,6 +394,7 @@ echo OOS CB 3 non rilevata, download in corso, ci vorra' un po'... resisti!
 echo.
 powershell Invoke-Webrequest http://s3.amazonaws.com/oxygenos.oneplus.net/OnePlus3Oxygen_16_OTA_003_all_1609142002_2a17363c90cd462e.zip -outfile OOSCB3.zip
 if errorlevel 1 (
+set "errorlevel=0"
 echo Il Download sembra essere fallito, riprova, se il problema persiste segnalamelo e provvedero' a sistemare il link se possibile.
 ping 127.0.0.1 -n 5 >nul
 goto :SCEOOSCB
@@ -412,6 +425,7 @@ echo OOS CB 4 non rilevata, download in corso, ci vorra' un po'... resisti!
 echo.
 powershell Invoke-Webrequest http://s3.amazonaws.com/oxygenos.oneplus.net/OnePlus3Oxygen_16_OTA_004_all_1609281647_e6a1e7e2d11b4626.zip -outfile OOSCB4.zip
 if errorlevel 1 (
+set "errorlevel=0"
 echo Il Download sembra essere fallito, riprova, se il problema persiste segnalamelo e provvedero' a sistemare il link se possibile.
 ping 127.0.0.1 -n 5 >nul
 goto :SCEOOSCB
@@ -442,6 +456,7 @@ echo OOS CB 5 non rilevata, download in corso, ci vorra' un po'... resisti!
 echo.
 powershell Invoke-Webrequest http://oxygenos.oneplus.net.s3.amazonaws.com/OnePlus3Oxygen_16_OTA_006_all_1610172123_2a54215ec1fa483e.zip -outfile OOSCB5.zip
 if errorlevel 1 (
+set "errorlevel=0"
 echo Il Download sembra essere fallito, riprova, se il problema persiste segnalamelo e provvedero' a sistemare il link se possibile.
 ping 127.0.0.1 -n 5 >nul
 goto :SCEOOSCB
@@ -472,6 +487,7 @@ echo OOS CB 6 non rilevata, download in corso, ci vorra' un po'... resisti!
 echo.
 powershell Invoke-Webrequest http://oxygenos.oneplus.net.s3.amazonaws.com/OnePlus3Oxygen_16_OTA_007_all_1610310039_bc5bc09fd9af4ceb.zip -outfile OOSCB6.zip
 if errorlevel 1 (
+set "errorlevel=0"
 echo Il Download sembra essere fallito, riprova, se il problema persiste segnalamelo e provvedero' a sistemare il link se possibile.
 ping 127.0.0.1 -n 5 >nul
 goto :SCEOOSCB
@@ -502,6 +518,7 @@ echo OOS CB 7 non rilevata, download in corso, ci vorra' un po'... resisti!
 echo.
 powershell Invoke-Webrequest http://oxygenos.oneplus.net.s3.amazonaws.com/OnePlus3Oxygen_16_OTA_009_all_1611161152_86fe98f7ebf24259.zip -outfile OOSCB7.zip
 if errorlevel 1 (
+set "errorlevel=0"
 echo Il Download sembra essere fallito, riprova, se il problema persiste segnalamelo e provvedero' a sistemare il link se possibile.
 ping 127.0.0.1 -n 5 >nul
 goto :SCEOOSCB
@@ -532,11 +549,43 @@ echo OOS CB 8 non rilevata, download in corso, ci vorra' un po'... resisti!
 echo.
 powershell Invoke-Webrequest https://www.dropbox.com/s/3fd3w4y4v98q308/oos-cb8.zip?dl=1 -outfile OOSCB8.zip
 if errorlevel 1 (
+set "errorlevel=0"
 echo Il Download sembra essere fallito, riprova, se il problema persiste segnalamelo e provvedero' a sistemare il link se possibile.
 ping 127.0.0.1 -n 5 >nul
 goto :SCEOOSCB
 )
 goto FOOSCB8
+
+:FOOSCB9
+cls
+if Not Exist OOSCB9.zip goto MOOSCB9
+echo il telefono si trova in recovery [s/n]?
+set /p scelta= Scelta:
+if '%scelta%'=='n' adb reboot recovery >nul
+echo ricordati di fare i wipe prima di installare la oosCB almeno system, data, cache e dalvik)
+ping 127.0.0.1 -n 8 >nul
+echo vai in avanzate e poi in modalita' sideload.
+echo.
+echo premi un tasto quando sei in sideload.
+pause >nul
+adb sideload OOSCB9.zip
+cls
+echo Il primo avvio richiede un po' piu' di tempo, resisti.
+ping 127.0.0.1 -n 8 >nul
+del OOSCB9.zip >nul
+goto menu
+
+:MOOSCB9
+echo OOS CB 9 non rilevata, download in corso, ci vorra' un po'... resisti!
+echo.
+powershell Invoke-Webrequest http://oxygenos.oneplus.net.s3.amazonaws.com/OnePlus3Oxygen_16_OTA_017_all_1612141448_c46e72f660ae4891.zip -outfile OOSCB9.zip
+if errorlevel 1 (
+set "errorlevel=0"
+echo Il Download sembra essere fallito, riprova, se il problema persiste segnalamelo e provvedero' a sistemare il link se possibile.
+ping 127.0.0.1 -n 5 >nul
+goto :SCEOOSCB
+)
+goto FOOSCB9
 
 :ROM
 cls
@@ -550,17 +599,24 @@ echo  #     # ####### #     #
 echo.
 if Not Exist OGAPPS.zip echo Pacchetto OGAPPS.zip non trovato!
 echo.
-echo 1-AICP (28-11-2016) (7.1)
-echo 2-CyanogenMOD (02-12-2016) (7.1)
+echo 1-AICP (11-12-2016) (7.1)
+echo 2-CyanogenMOD (11-12-2016) (7.1)
 echo 3-FreedomOS () [coming soon]
-echo 4-Apri il sito opengapps.org / scarica aroma
+echo 4-Apri il sito opengapps.org
 echo 0-Torna a Menu OOS
 echo.
 set /p scelta= Scelta[4-0]:
 if '%scelta%'=='1' goto AICPMENU
 if '%scelta%'=='2' goto CMMENU
 if '%scelta%'=='3' goto FREEDOM
-if '%scelta%'=='4' start http://opengapps.org/
+if '%scelta%'=='4' (
+echo.
+echo Scarica ARM64, la versione che preferisci per la versione di android che ti serve.
+echo Rinominalo GAPPS.zip e mettilo nella cartella del toolkit.
+ping 127.0.0.1 -n 5 >nul
+start http://opengapps.org/
+goto :ROM
+)
 if '%scelta%'=='0' goto :OOS
 goto :ROM
 
@@ -573,6 +629,7 @@ set /p scelta= Scelta:
 if '%scelta%'=='p' goto :ROM
 If Not Exist GAPPS.zip powershell Invoke-Webrequest https://www.dropbox.com/s/i6bvlwph8kwm8r5/open_gapps-arm-7.1-stock-20161205.zip?dl=1 -outfile OGAPPS.zip
 if errorlevel 1 (
+set "errorlevel=0"
 echo Il Download sembra essere fallito, riprova, se il problema persiste segnalamelo e provvedero' a sistemare il link se possibile.
 ping 127.0.0.1 -n 5 >nul
 goto :ROM
@@ -591,6 +648,7 @@ set /p scelta= Scelta:
 if '%scelta%'=='p' goto :ROM
 If Not Exist GAPPS.zip powershell Invoke-Webrequest https://www.dropbox.com/s/i6bvlwph8kwm8r5/open_gapps-arm-7.1-stock-20161205.zip?dl=1 -outfile OGAPPS.zip
 if errorlevel 1 (
+set "errorlevel=0"
 echo Il Download sembra essere fallito, riprova, se il problema persiste segnalamelo e provvedero' a sistemare il link se possibile.
 ping 127.0.0.1 -n 5 >nul
 goto :ROM
@@ -645,8 +703,9 @@ goto menu
 
 :AICPD
 echo AICP.zip non trovato, lo scarico per te... ci vorra un po'!
-powershell.exe Invoke-Webrequest http://mirror2.aicp-rom.com/oneplus3/NIGHTLY/aicp_oneplus3_n-12.1-NIGHTLY-20161128.zip -outfile AICP.zip
+powershell.exe Invoke-Webrequest http://mirror3.aicp-rom.com/oneplus3/NIGHTLY/aicp_oneplus3_n-12.1-NIGHTLY-20161211.zip -outfile AICP.zip
 if errorlevel 1 (
+set "errorlevel=0"
 echo Il Download sembra essere fallito, riprova, se il problema persiste segnalamelo e provvedero' a sistemare il link se possibile.
 ping 127.0.0.1 -n 5 >nul
 goto :ROM
@@ -700,8 +759,9 @@ goto menu
 
 :CMD
 echo CM.zip non trovato, lo scarico per te... ci vorra un po'!
-powershell.exe Invoke-Webrequest https://download.cyanogenmod.org/get/jenkins/187900/cm-14.1-20161202-NIGHTLY-oneplus3.zip -outfile CM.zip
+powershell.exe Invoke-Webrequest https://download.cyanogenmod.org/get/jenkins/188584/cm-14.1-20161211-NIGHTLY-oneplus3.zip -outfile CM.zip
 if errorlevel 1 (
+set "errorlevel=0"
 echo Il Download sembra essere fallito, riprova, se il problema persiste segnalamelo e provvedero' a sistemare il link se possibile.
 ping 127.0.0.1 -n 5 >nul
 goto :ROM
@@ -753,6 +813,7 @@ echo.
 echo Attendi.
 if Not Exist lucky.apk powershell Invoke-Webrequest https://www.dropbox.com/s/pc7931zdhuvreuu/Lucky%20Patcher%20v6.3.7.apk?dl=1 -outfile lucky.apk
 if errorlevel 1 (
+set "errorlevel=0"
 echo Il Download sembra essere fallito, riprova, se il problema persiste segnalamelo e provvedero' a sistemare il link se possibile.
 ping 127.0.0.1 -n 5 >nul
 goto :APP
@@ -768,6 +829,7 @@ echo.
 echo Attendi.
 if Not Exist adaway.apk powershell Invoke-Webrequest https://www.dropbox.com/s/d8xwds6qftq846r/AdAway-release_Build-Nov.19.2016.apk?dl=1 -outfile adaway.apk
 if errorlevel 1 (
+set "errorlevel=0"
 echo Il Download sembra essere fallito, riprova, se il problema persiste segnalamelo e provvedero' a sistemare il link se possibile.
 ping 127.0.0.1 -n 5 >nul
 goto :APP
@@ -783,6 +845,7 @@ echo.
 echo Attendi.
 if Not Exist spotify.apk powershell Invoke-Webrequest https://www.dropbox.com/s/dlxdt1av0eu4hhs/Spotify%20Music%20v7.0.0.1369%20Mod.apk?dl=1 -outfile spotify.apk
 if errorlevel 1 (
+set "errorlevel=0"
 echo Il Download sembra essere fallito, riprova, se il problema persiste segnalamelo e provvedero' a sistemare il link se possibile.
 ping 127.0.0.1 -n 5 >nul
 goto :APP
@@ -798,6 +861,7 @@ echo.
 echo Attendi.
 if Not Exist xposed.apk powershell Invoke-Webrequest https://www.dropbox.com/s/qcd36121qi4mlds/XposedInstaller_3.1.1.apk?dl=1 -outfile xposed.apk
 if errorlevel 1 (
+set "errorlevel=0"
 echo Il Download sembra essere fallito, riprova, se il problema persiste segnalamelo e provvedero' a sistemare il link se possibile.
 ping 127.0.0.1 -n 5 >nul
 goto :APP
@@ -826,41 +890,10 @@ echo 0-torna al menu principale
 echo.
 echo.
 set /p scelta= Scelta[2-0]:
-if '%scelta%'=='1' goto :CHANGE
+if '%scelta%'=='1' start changelog.txt
 if '%scelta%'=='2' goto :GUIDA
 if '%scelta%'=='0' goto :menu
 goto :HELP
-
-:CHANGE
-cls
-echo.
-echo ===============================================================
-echo.
-echo IN QUESTA VERSIONE V21 (06-12-2016):
-echo -aggiunto "download fallito" con raivvio nel menu precedente.
-echo.
-echo ===============================================================
-echo.
-echo IN QUESTA VERSIONE V20 (05-12-2016):
-echo -aggiunto Guida e F.A.Q 
-echo 
-echo IN ARRIVO
-echo -n 
-echo.
-echo ===============================================================
-echo. 
-echo IN QUESTA VERSIONE V19(3-12-2016):
-echo -aggiunti i numeri di scelta [n-n]
-echo -aggiunta ogni versione (tranne la prima) della community build
-echo -aggiornati i link
-echo.
-echo IN ARRIVO
-echo -decript [molto lontano]
-echo.
-echo ===============================================================
-echo.
-pause
-goto :menu
 
 :GUIDA
 cls
@@ -878,23 +911,12 @@ echo Premi un tasto per tornare al menu AIUTO
 pause >nul
 goto :HELP
 
-:INSTADB
-if Not Exist adb-setup-1.4.3.exe powershell.exe Invoke-Webrequest https://www.dropbox.com/s/duofwss02brdbpv/adb-setup-1.4.3.exe?dl=1 -outfile adb-setup-1.4.3.exe
-if errorlevel 1 (
-echo Il Download sembra essere fallito, riprova, se il problema persiste segnalamelo e provvedero' a sistemare il link se possibile.
-ping 127.0.0.1 -n 5 >nul
-goto :PREMESSE
-)
-start adb-setup-1.4.3.exe
-if Not Exist OnePlus_USB_Drivers_Setup.exe powershell.exe Invoke-Webrequest https://www.dropbox.com/s/d9rn1iss7h5e1k1/OnePlus_USB_Drivers_Setup.exe?dl=1 -outfile OnePlus_USB_Drivers_Setup.exe
-if errorlevel 1 (
-echo Il Download sembra essere fallito, riprova, se il problema persiste segnalamelo e provvedero' a sistemare il link se possibile.
-ping 127.0.0.1 -n 5 >nul
-goto :PREMESSE
-)
-start OnePlus_USB_Drivers_Setup.exe
-pause
-start cmd.exe /C Toolkit.bat
+:sce
+echo ADB non sembra essere presente, vuoi installarlo?
+set /p scelta= Scelta[s/n]:
+if '%scelta%'=='s' start installer.bat & goto :FEXIT
+if '%scelta%'=='n' goto :FEXIT
+goto :sce
 
 :EXIT
 echo.
@@ -902,3 +924,6 @@ echo Ci vediamo!
 echo Spengo il server adb.
 adb kill-server
 ping 127.0.0.1 -n 3 >nul
+
+:FEXIT
+cls
