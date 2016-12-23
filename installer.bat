@@ -3,6 +3,12 @@ cls
 color f0
 title installer
 echo Comincio l'installazione, attendi...
+adb kill-server
+if errorlevel 0 (
+echo i driver sembrano gia installati, non e' necessario reinstallarli.
+ping 127.0.0.1 -n 4 >nul
+goto :EXIT
+)
 if Not Exist adb-setup-1.4.3.exe powershell.exe Invoke-Webrequest https://www.dropbox.com/s/duofwss02brdbpv/adb-setup-1.4.3.exe?dl=1 -outfile adb-setup-1.4.3.exe
 if errorlevel 1 (
 set "errorlevel=0"
@@ -19,9 +25,8 @@ ping 127.0.0.1 -n 5 >nul
 goto :FEXIT
 )
 start OnePlus_USB_Drivers_Setup.exe
-echo Premi un tasto alla fine dell'installazione dei driver.
+echo Premi un tasto alla fine dell'installazione dei driver e riavvia il toolkit.
 pause >nul
-start cmd.exe /C Toolkit.bat
 goto :EXIT
 
 :FEXIT
