@@ -2,8 +2,10 @@
 @echo off
 mode con:cols=80 lines=25
 cls
-color f0
+set co=f0
+color %co%
 Title OnePlus 3 TK
+cls
 echo  ######                                                   
 echo  #     # #####  ###### #    # ######  ####   ####  ###### 
 echo  #     # #    # #      ##  ## #      #      #      #      
@@ -27,6 +29,7 @@ echo.
 echo.
 pause
 cls
+color %co%
 echo    #            #######               ######                      
 echo   ##     #      #     # #    # ###### #     # #      #    #  ####  
 echo  # #     #      #     # ##   # #      #     # #      #    # #      
@@ -44,7 +47,7 @@ start cmd.exe /C devices.bat
 goto menu
 
 :menu
-color f0
+color %co%
 cls
 echo  #     # ####### #     # #     # 
 echo  ##   ## #       ##    # #     # 
@@ -62,9 +65,10 @@ echo 4-OxygenOS / Rom flash
 echo 5-Decript (no wipe) [Coming soon]
 echo 6-App Installer
 echo 7-Aiuto
+echo 8-Cambia colore
 echo 0-Esci
 echo.
-set /p scelta= Scelta[0-7]:
+set /p scelta= Scelta[0-8]:
 if '%scelta%'=='1' goto :BOOT
 if '%scelta%'=='2' goto :TWRP
 if '%scelta%'=='3' goto :SUPERSU
@@ -72,11 +76,12 @@ if '%scelta%'=='4' goto :OOS
 if '%scelta%'=='5' goto :DECRIPT
 if '%scelta%'=='6' goto :APP
 if '%scelta%'=='7' goto :HELP
+if '%scelta%'=='8' goto :CCOLOR
 if '%scelta%'=='0' goto :EXIT
 goto menu
 
 :BOOT
-color f0
+color %co%
 cls
 echo  ######                                                                
 echo  #     #  ####   ####  ##### #       ####    ##   #####  ###### #####  
@@ -109,7 +114,7 @@ if '%scelta%'== 'n' goto :BOOT
 goto BOOT
 
 :bbootu
-color f0
+color %co%
 echo.
 echo.
 adb reboot bootloader
@@ -132,7 +137,7 @@ if '%scelta%'== 'n' goto :BOOT
 goto BOOT
 
 :bbootd
-color f0
+color %co%
 echo.
 echo.
 adb reboot bootloader
@@ -599,9 +604,9 @@ echo  #     # ####### #     #
 echo.
 if Not Exist OGAPPS.zip echo Pacchetto OGAPPS.zip non trovato!
 echo.
-echo 1-AICP (11-12-2016) (7.1)
-echo 2-CyanogenMOD (11-12-2016) (7.1)
-echo 3-FreedomOS () [coming soon]
+echo 1-AICP (22-12-2016) (7.1)
+echo 2-CyanogenMOD (22-12-2016) (7.1)
+echo 3-FreedomOS
 echo 4-Apri il sito opengapps.org
 echo 0-Torna a Menu OOS
 echo.
@@ -627,7 +632,7 @@ echo.
 echo Se accetti il pacchetto Stock premi un tasto per il download automatico, altrimenti premi [P] per tornare al menu precedente.
 set /p scelta= Scelta:
 if '%scelta%'=='p' goto :ROM
-If Not Exist GAPPS.zip powershell Invoke-Webrequest https://www.dropbox.com/s/i6bvlwph8kwm8r5/open_gapps-arm-7.1-stock-20161205.zip?dl=1 -outfile OGAPPS.zip
+If Not Exist GAPPS.zip powershell Invoke-Webrequest https://www.dropbox.com/s/bhg861d3i99l9h7/open_gapps-arm64-7.1-stock-20161220.zip?dl=1 -outfile OGAPPS.zip
 if errorlevel 1 (
 set "errorlevel=0"
 echo Il Download sembra essere fallito, riprova, se il problema persiste segnalamelo e provvedero' a sistemare il link se possibile.
@@ -646,7 +651,7 @@ echo.
 echo Se accetti il pacchetto Stock premi un tasto per il download automatico, altrimenti premi [P] per tornare al menu precedente.
 set /p scelta= Scelta:
 if '%scelta%'=='p' goto :ROM
-If Not Exist GAPPS.zip powershell Invoke-Webrequest https://www.dropbox.com/s/i6bvlwph8kwm8r5/open_gapps-arm-7.1-stock-20161205.zip?dl=1 -outfile OGAPPS.zip
+If Not Exist GAPPS.zip powershell Invoke-Webrequest https://www.dropbox.com/s/bhg861d3i99l9h7/open_gapps-arm64-7.1-stock-20161220.zip?dl=1 -outfile OGAPPS.zip
 if errorlevel 1 (
 set "errorlevel=0"
 echo Il Download sembra essere fallito, riprova, se il problema persiste segnalamelo e provvedero' a sistemare il link se possibile.
@@ -703,7 +708,7 @@ goto menu
 
 :AICPD
 echo AICP.zip non trovato, lo scarico per te... ci vorra un po'!
-powershell.exe Invoke-Webrequest http://mirror3.aicp-rom.com/oneplus3/NIGHTLY/aicp_oneplus3_n-12.1-NIGHTLY-20161211.zip -outfile AICP.zip
+powershell.exe Invoke-Webrequest http://mirror1.aicp-rom.com/oneplus3/NIGHTLY/aicp_oneplus3_n-12.1-NIGHTLY-20161222.zip -outfile AICP.zip
 if errorlevel 1 (
 set "errorlevel=0"
 echo Il Download sembra essere fallito, riprova, se il problema persiste segnalamelo e provvedero' a sistemare il link se possibile.
@@ -759,7 +764,7 @@ goto menu
 
 :CMD
 echo CM.zip non trovato, lo scarico per te... ci vorra un po'!
-powershell.exe Invoke-Webrequest https://download.cyanogenmod.org/get/jenkins/188584/cm-14.1-20161211-NIGHTLY-oneplus3.zip -outfile CM.zip
+powershell.exe Invoke-Webrequest https://download.cyanogenmod.org/get/jenkins/189680/cm-14.1-20161222-NIGHTLY-oneplus3.zip -outfile CM.zip
 if errorlevel 1 (
 set "errorlevel=0"
 echo Il Download sembra essere fallito, riprova, se il problema persiste segnalamelo e provvedero' a sistemare il link se possibile.
@@ -771,10 +776,96 @@ ping 127.0.0.1 -n 3 >nul
 goto :CMMENU
 
 :FREEDOM
+cls
+echo 1-FreedomOS (6.0.1)
+echo 2-FreedomOS CE (7.0)
+echo 3-Flash stock bootscreen
+echo 0-Torna al menu precedente
 echo.
-echo COMING SOON!
-ping 127.0.0.1 -n 3 >nul
+set /p scelta= Scelta[3-0]:
+if '%scelta%'=='1' goto :FOS
+if '%scelta%'=='2' goto :FOSCE
+if '%scelta%'=='3' goto :BS
+if '%scelta%'=='0' goto :ROM
+goto :FREEDOM
+
+:FOS
+cls
+if Not Exist FREEDOMOS.zip goto :DF
+adb reboot recovery >nul
+echo Se vieni da un altra rom effettua i wipe (almeno system,data,cache e dalvik) 
+echo Manda il telefono in sideload (avanzate - sideload)
+echo premi un tasto quando sei in sideload.
+pause >nul
+adb sideload FREEDOMOS.zip
+echo fatto! ora riavvia, ci vorra' un po per il primo riavvio.
+ping 127.0.0.1 -n 5 >nul
+del FREEDOM.zip >nul
+goto menu
+
+:FOSCE
+cls
+if Not Exist FREEDOMOSCE.zip goto :DFCE
+adb reboot recovery >nul
+echo Se vieni da un altra rom effettua i wipe (almeno system,data,cache e dalvik) 
+echo Manda il telefono in sideload (avanzate - sideload)
+echo premi un tasto quando sei in sideload.
+pause >nul
+adb sideload FREEDOMOSCE.zip
+echo fatto! ora riavvia, ci vorra' un po per il primo riavvio.
+ping 127.0.0.1 -n 5 >nul
+del FREEDOMCE.zip >nul
+goto menu
+
+:DF
+echo FREEDOM.zip non trovato, lo scarico per te... ci vorra un po'!
+powershell.exe Invoke-Webrequest http://nevax.one/files/OnePlus3/FreedomOS/FreedomOS-op3-nevax-1.7-signed.zip -outfile FREEDOM.zip
+if errorlevel 1 (
+set "errorlevel=0"
+echo Il Download sembra essere fallito, riprova, se il problema persiste segnalamelo e provvedero' a sistemare il link se possibile.
+ping 127.0.0.1 -n 5 >nul
 goto :ROM
+)
+echo fatto! comincio il processo di flash.
+ping 127.0.0.1 -n 3 >nul
+goto :FOS
+
+:DFCE
+echo FREEDOMCE.zip non trovato, lo scarico per te... ci vorra un po'!
+powershell.exe Invoke-Webrequest http://nevax.one/files/OnePlus3/FreedomOS_CE/FreedomOS-CE-op3-nevax-2.1-signed.zip -outfile FREEDOMCE.zip
+if errorlevel 1 (
+set "errorlevel=0"
+echo Il Download sembra essere fallito, riprova, se il problema persiste segnalamelo e provvedero' a sistemare il link se possibile.
+ping 127.0.0.1 -n 5 >nul
+goto :ROM
+)
+echo fatto! comincio il processo di flash.
+ping 127.0.0.1 -n 3 >nul
+goto :FOSCE
+
+:BS
+echo.
+echo Questo flashera' la bootscreen ufficiale oneplus, premi [a] per annullare o qualunque altro tasto per continuare.
+set /p scelta= Scelta:
+if '%scelta%'=='a' goto :FREEDOM
+if Not Exist oos-bootscreen.zip (
+powershell.exe Invoke-Webrequest https://www.dropbox.com/s/lo3znv31t0m3lvk/oos-bootscreen.zip?dl=1 -outfile oos-bootscreen.zip
+)
+if errorlevel 1 (
+set "errorlevel=0"
+echo Il Download sembra essere fallito, riprova, se il problema persiste segnalamelo e provvedero' a sistemare il link se possibile.
+ping 127.0.0.1 -n 5 >nul
+goto :ROM
+)
+adb reboot recovery >nul
+echo Vai in recovery, avanzate e sideload.
+echo premi un tasto quando sei in sideload
+pause >nul
+adb sideload oos-bootscreen.zip >nul
+echo fatto
+ping 127.0.0.1 -n 3 >nul
+del oos-bootscreen.zip >nul
+goto :FREEDOM
 
 :DECRIPT
 echo.
@@ -910,6 +1001,22 @@ echo.
 echo Premi un tasto per tornare al menu AIUTO
 pause >nul
 goto :HELP
+
+:CCOLOR
+color %co%
+cls
+echo Impostazioni sul colore
+echo.
+echo 1-Schermo [NERO] con scritte [VERDI]
+echo 2-Schermo [NERO] con scritte [GIALLE]
+echo 3-Schermo [BIANCO] con scritte [NERE] (consigliato)
+echo 0-Torna al menu principale
+set /p scelta= Scelta:
+if '%scelta%'=='1' set co=0a >> verde.txt
+if '%scelta%'=='2' set co=0e >> giallo.txt
+if '%scelta%'=='3' set co=f0 >> bianco.txt
+if '%scelta%'=='0' goto :menu
+goto :CCOLOR
 
 :sce
 echo ADB non sembra essere presente, vuoi installarlo?
